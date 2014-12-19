@@ -22,3 +22,7 @@ template <class T> unsigned int edit_distance(const T& s1, const T& s2)
 	return d[len1][len2];
 }
 //calculates minimum edit distance
+
+int main(){
+	
+}
