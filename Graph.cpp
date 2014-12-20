@@ -65,3 +65,11 @@ void Graph::print_adjacencies(std::string name)
 
     vertices[pos].print_out_adjacencies();
 }
+
+//Will return the name specified's adjacency list.
+std::vector<std::pair<int, std::string>> Graph::return_these_adjacencies(std::string query)
+{
+    int pos = roots[query];
+
+    return vertices[pos].return_adjacencies();
+}
