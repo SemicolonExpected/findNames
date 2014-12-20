@@ -21,6 +21,8 @@ struct vertex{
     void set_status(visited status);
     std::pair<int, std::string> return_this_pair(std::string name);
     void print_out_adjacencies();
+    std::vector<std::pair<int, std::string>> return_adjacencies();
+
 
 };
 
