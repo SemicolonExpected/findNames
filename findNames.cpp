@@ -27,4 +27,43 @@ template <class T> unsigned int edit_distance(const T& s1, const T& s2)
 
 int main(){
 	
+	//Graph 
+	/********************************************
+	 * Takes the name of stuff into the program * 
+	 ********************************************/
+	 
+	 std::ifstream names;
+	 names.open("allnames.txt");
+	 std::vector<string> stuff;
+	 Graph theGraph;
+	 //std::vector<std::pair<std::string, int>> vertexes;
+	 
+	 if(!names.eof()){
+	 	//adds the first vertex
+	 	char temp[256]; 
+	 	names.get(temp,256);
+	 	std::string temporary = temp;
+	 	theGraph.add_vertex(temporary);
+	 	stuff.push_back(temporary);
+	 	//std::pair<std::string, int> tempPair(temporary,0);
+	 }
+	 while(!names.eof())
+	 {
+	 	char temp[256]; 
+	 	names.get(temp,256); //gets line
+	 	string temporary = temp;
+	 	theGraph.add_vertex(temporary);
+	 	/*************************
+	 	 * Check for adjacencies *
+	 	 * ********************* */
+	 	 
+	 	 for(int i = 0; i<stuff.size(); i++){
+	 		int weight = edit_distance(temporary, stuff[i]);
+	 		if(weight<4){
+	 			theGraph.add_adjacency(temporary, stuff[i],weight);
+	 		}
+	 	 }
+	 	 
+	 	 stuff.push_back(temporary);
+	 }
 }
