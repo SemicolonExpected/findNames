@@ -18,6 +18,8 @@ public:
     void add_adjacency(std::string first_name, std::string last_name, int weight);
     void dfs(std::string name);
     void print_adjacencies(std::string);
+    std::vector<std::pair<int, string>> return_these_adjacencies(std::string query);// NEW!
+
 };
 
 #endif
