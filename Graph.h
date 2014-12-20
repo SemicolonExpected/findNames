@@ -1,3 +1,6 @@
+#ifndef GRAPH_H
+#define GRAPH_H
+
 #include <utility>
 #include <list>
 #include <string>
@@ -9,7 +12,6 @@ using namespace std;
 	void add_edge(edge) : Adds a new edge to the vertex's adjacency list
 	Edge * return_edge_list() : Returns the adjacency list. Used in the graph print_adjacencies(vertex)
 	void set_name(string name) : Sets the name of the vertex's value.
-
 */
 class AdjListVertex
 {
@@ -62,7 +64,6 @@ Functions:
 	AdjListVertex * return_second_vertex() //Returns vertex-two
 	void set_first_vertex(AdjListVertex *new_vertex() //Does what it do
 	void set_second_vertex(AdjListVertex *new_vertex() //^^^^
-
 */
 class Edge
 {
@@ -192,3 +193,5 @@ public:
 	}
 
 };
+
+#endif
