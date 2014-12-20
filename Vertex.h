@@ -1,20 +1,27 @@
-#ifndef GRAPH_H
-#include <utility>
-#include <vector>
-#include <map>
+#ifndef VERTEX_H
+#define VERTEX_H
 #include <string>
-#include <iostream>
-#include "Vertex.h"
+#include <vector>
+#include <utility>
 
-//using namespace std;
+enum visited { UNKNOWN, KNOWN, COMPLETE };
 
-class Graph{
-private:
-    std::map<int, std::string> roots;
-    std::vector<vertex> vertices;
-public:
-    void add_vertex(std::string new_vertex);
-    void add_adjacency(std::string first_name, std::string last_name, int weight);
+struct vertex{
+    std::string name;
+    visited status;
+    std::vector<std::pair<int, std::string>> adjacencies;
+    int adjacencies_count;
+    /***************************|
+    * vertex | vertex | vertex |
+    * weight | weight | weight |
+    * ************************/
+    vertex();
+    void add_new_pair(int weight, std::string adjacency);
+    int return_adjacency_count();
+    void set_status(visited status);
+    std::pair<int, std::string> return_this_pair(std::string name);
+    void print_out_adjacencies();
+
 };
 
 #endif
