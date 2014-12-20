@@ -2,11 +2,12 @@
  * Victoria Zhong
  * 
  * *********************/
-
 #include "BinaryHeap.h"
+#include "Graph.h"
 
 #include <vector>
-
+#include <fstream>
+#include <string>
 
 template <class T> unsigned int edit_distance(const T& s1, const T& s2)
 {
@@ -19,10 +20,13 @@ template <class T> unsigned int edit_distance(const T& s1, const T& s2)
  
 	for(unsigned int i = 1; i <= len1; ++i)
 		for(unsigned int j = 1; j <= len2; ++j)
- 
-                      d[i][j] = std::min( std::min(d[i - 1][j] + 1,d[i][j - 1] + 1),
-                                          d[i - 1][j - 1] + (s1[i - 1] == s2[j - 1] ? 0 : 1) );
+            d[i][j] = std::min( std::min(d[i - 1][j] + 1,d[i][j - 1] + 1),
+                      d[i - 1][j - 1] + (s1[i - 1] == s2[j - 1] ? 0 : 1) );
 	return d[len1][len2];
+}
+
+void prims(){
+
 }
 
 int main(){
@@ -40,18 +44,21 @@ int main(){
 	 
 	 if(!names.eof()){
 	 	//adds the first vertex
-	 	char temp[256]; 
-	 	names.get(temp,256);
-	 	std::string temporary = temp;
+	 	//char temp[256]; 
+	 	//names.get(temp,256);
+	 	//std::string temporary = temp;
+	 	std::string temporary;// = temp;
+	 	names>>temporary;
 	 	theGraph.add_vertex(temporary);
 	 	stuff.push_back(temporary);
 	 	//std::pair<std::string, int> tempPair(temporary,0);
 	 }
 	 while(!names.eof())
 	 {
-	 	char temp[256]; 
-	 	names.get(temp,256); //gets line
-	 	string temporary = temp;
+	 	//char temp[256]; 
+	 	 //gets line
+	 	string temporary;// = temp;
+	 	names>>temporary;
 	 	theGraph.add_vertex(temporary);
 	 	/*************************
 	 	 * Check for adjacencies *
@@ -66,4 +73,10 @@ int main(){
 	 	 
 	 	 stuff.push_back(temporary);
 	 }
+	 
+	 names.close();
+	 
+	 BinaryHeap<string> edges(stuff);
+	 
+	
 }
