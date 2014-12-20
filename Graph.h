@@ -1,24 +1,20 @@
 #ifndef GRAPH_H
-#define GRAPH_H
-
 #include <utility>
-#include <list>
+#include <vector>
+#include <map>
 #include <string>
 #include <iostream>
+#include "Vertex.h"
 
-using namespace std;
+//using namespace std;
 
-struct vertex{
-    string astring;
-    vector<vector<vertex,int>> node; 
-    /***************************|
-     * vertex | vertex | vertex |
-     * weight | weight | weight |
-     * ************************/
-};
-
-struct graph{
-    vector<vector<int,vertex>> nodes; //just add pairs of vertexes and its weight connecting to another vertex
+class Graph{
+private:
+    std::map<int, std::string> roots;
+    std::vector<vertex> vertices;
+public:
+    void add_vertex(std::string new_vertex);
+    void add_adjacency(std::string first_name, std::string last_name, int weight);
 };
 
 #endif
