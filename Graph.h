@@ -12,6 +12,8 @@ private:
     std::map<std::string, int> roots;
     std::vector<vertex> vertices;
 public:
+    Graph();
+    Graph(std::string name);
     void add_vertex(std::string new_vertex);
     void add_adjacency(std::string first_name, std::string last_name, int weight);
     void dfs(std::string name);
