@@ -45,3 +45,9 @@ void vertex::print_out_adjacencies()
         std::cout << name  << "-" << curr.first << curr.second << std::endl;
     }
 }
+
+//Will return the vertices' adjacency list.
+std::vector<std::pair<int, std::string>> vertex::return_adjacencies()
+{
+    return adjacencies;
+}
