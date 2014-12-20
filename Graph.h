@@ -17,4 +17,8 @@ struct vertex{
      * ************************/
 };
 
+struct graph{
+    vector<vector<int,vertex>> nodes; //just add pairs of vertexes and its weight connecting to another vertex
+};
+
 #endif
