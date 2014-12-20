@@ -12,21 +12,34 @@ using namespace std;
 
 enum visited { UNKNOWN, KNOWN, COMPLETE };
 
+class Edge{
+public:
+    std::string vertex1;
+    std::string vertex2;
+    int weight;
+
+    Edge();
+    Edge(std::string name1, std::string name2, int new_weight);
+    Edge& operator=(Edge rhs);
+    bool operator==(Edge rhs);
+};
+
 struct vertex{
     std::string name;
     visited status;
-    std::vector<std::pair<int, std::string>> adjacencies;
+    std::vector<Edge> adjacencies;
     int adjacencies_count;
     /***************************|
     * vertex | vertex | vertex |
     * weight | weight | weight |
     * ************************/
     vertex();
-    void add_new_pair(int weight, std::string adjacency);
+    void add_new_edge(int weight, std::string adjacency);
     int return_adjacency_count();
     void set_status(visited status);
-    std::pair<int, std::string> return_this_pair(std::string name);
+    Edge return_this_edge(std::string name);
     void print_out_adjacencies();
+    std::vector<Edge> return_adjacencies();
 
 };
 
@@ -41,6 +54,8 @@ public:
     void add_adjacency(std::string first_name, std::string last_name, int weight);
     //void dfs(std::string name);
     void print_adjacencies(std::string);
+    
+    std::vector<Edge> return_these_adjacencies(std::string query);
 };
 
 Graph::Graph()
@@ -71,8 +86,8 @@ void Graph::add_adjacency(std::string first_name, std::string last_name, int wei
 {
     int pos1 = roots[first_name], pos2 = roots[last_name];
 
-    vertices[pos1].add_new_pair(weight, first_name);//Adjacency <first-last>
-    vertices[pos2].add_new_pair(weight, last_name);//Adjacency <last-first>
+    vertices[pos1].add_new_edge(weight, first_name);//Adjacency <first-last>
+    vertices[pos2].add_new_edge(weight, last_name);//Adjacency <last-first>
 
 }
 
@@ -100,15 +115,21 @@ void Graph::print_adjacencies(std::string name)
     vertices[pos].print_out_adjacencies();
 }
 
+std::vector<Edge> Graph::return_these_adjacencies(std::string query)
+{
+    int pos = roots[query];
+
+    return vertices[pos].return_adjacencies();
+}
+
 /*Vertex functions*/
 
 vertex::vertex(){
     status = UNKNOWN;
 }
-
-void vertex::add_new_pair(int weight, std::string adjacency)
+void vertex::add_new_edge(int weight, std::string adjacency)
 {
-    std::pair <int, std::string> new_pair(weight, adjacency);
+    Edge new_pair(name, adjacency, weight);
     adjacencies.push_back(new_pair);
     adjacencies_count = adjacencies.size();
 }
@@ -123,26 +144,69 @@ int vertex::return_adjacency_count()
     return adjacencies_count;
 }
 
-std::pair<int, std::string> vertex::return_this_pair(std::string name)
+Edge vertex::return_this_edge(std::string name)
 {
-    std::pair<int, std::string> current;
+    Edge current;
     std::string current_string;
     for(int i = adjacencies.size(); i < adjacencies.size(); i++)
     {
         current = adjacencies[i];
 
-        if( name == std::get<1>(current) ) return current;
+        if( name == current.vertex1 ) return current;
     }
 }
 
 void vertex::print_out_adjacencies()
 {
-    std::pair<int, std::string> curr;
+    Edge curr;
     for(int i = 0; i < adjacencies.size(); i++)
     {
         curr = adjacencies[i];
-        std::cout << name  << "-" << curr.first << curr.second << std::endl;
+        std::cout << curr.vertex1  << "-" << curr.weight << "-" << curr.vertex2 << std::endl;
     }
+}
+
+//Will return the vertices' adjacency list.
+std::vector<Edge> vertex::return_adjacencies()
+{
+    std::vector<Edge> edge_triples;
+
+    for(int i = 0; i < adjacencies.size(); i++)
+    {
+        edge_triples[i].vertex1 = name;
+        edge_triples[i].vertex2 = adjacencies[i].vertex2;
+        edge_triples[i].weight = adjacencies[i].weight;
+    }
+    return adjacencies;
+}
+
+/******************
+ * Edge functions *
+ ******************/
+ 
+Edge::Edge(){
+    weight = 0;
+}
+Edge::Edge(std::string name1, std::string name2, int new_weight)
+{
+    vertex1 = name1;
+    vertex2 = name2;
+    weight = new_weight;
+}
+
+Edge& Edge::operator=(Edge rhs)
+{
+    if(*this == rhs) return;
+    vertex1 = rhs.vertex1;
+    vertex2 = rhs.vertex2;
+    weight = rhs.weight;
+}
+
+bool Edge::operator==(Edge rhs){
+    if(vertex1 == rhs.vertex1 && vertex2 == rhs.vertex2 && weight == rhs.weight)
+        return true;
+    else
+        return false;
 }
 
 #endif
