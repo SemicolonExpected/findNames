@@ -5,11 +5,31 @@
 #include <map>
 #include <string>
 
+Graph::Graph()
+{
+
+}
+
+Graph::Graph(std::string name)
+{
+    int pos = vertices.size();
+    roots[name]  = pos;
+
+    vertex brand_new;
+    brand_new.name = name;
+
+    vertices.push_back(brand_new);
+}
+
 void Graph::add_vertex(std::string new_vertex)
 {
     int pos = vertices.size();
     roots[new_vertex]  = pos;
-    vertices[pos].name = new_vertex;
+
+    vertex brand_new;
+    brand_new.name = new_vertex;
+
+    vertices.push_back(brand_new);
     std::cout << "Graph pos " << roots[new_vertex] << " contains " << vertices[pos].name << std::endl;
 }
 
