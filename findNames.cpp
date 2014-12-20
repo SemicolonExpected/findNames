@@ -68,6 +68,7 @@ int main(){
 	 		int weight = edit_distance(temporary, stuff[i]);
 	 		if(weight<4){
 	 			theGraph.add_adjacency(temporary, stuff[i],weight);
+	 			theGraph.add_adjacency(stuff[i], temporary, weight);
 	 		}
 	 	 }
 	 	 
