@@ -78,6 +78,9 @@ Graph::Graph(std::string name)
 
 void Graph::add_vertex(std::string new_vertex)
 {
+    vertex brand_new;
+    brand_new.name = new_vertex;
+    vertices.push_back(brand_new);
     int pos = vertices.size();
     roots[new_vertex]  = pos;
     vertices[pos].name = new_vertex;
