@@ -72,7 +72,35 @@ int main(){
 	 
 	 names.close();
 	 
-	 BinaryHeap<string> edges(stuff);
+	 std::vector<Edge> edges;
+	 string temporary = stuff.front();
+	 edges = theGraph.return_these_adjacencies(temporary);
+	 BinaryHeap<Edge> theEdges(edges);
+	 std::swap(stuff[0],stuff[stuff.size()-1]);
+	 stuff.resize(stuff.size()-1);
+	 //deletes that element
+	 
+	 while(stuff.size()>0)
+	 {
+	 	string temporary = stuff.front();
+		edges = theGraph.return_these_adjacencies(temporary);
+		std::swap(stuff[0],stuff[stuff.size()-1]);
+	 	stuff.resize(stuff.size()-1);
+	 	
+	 	for(int i = 0; i<edges.size(); i++)
+	 		theEdges.insert(edges[i]);
+	 }
+	 
+	 
+	 /***********************************************\
+	 	Put things in heap
+	 	pop out the minimum
+	 	then grab the next minimum that is connected
+	 	any node that will get connected is "visited"
+	 	if both nodes are "visited" do not add node
+	 	thus duplicates or the uv vu is only a waste
+	 	of space but will not error.
+	 ************************************************/
 	 
 	
 }
