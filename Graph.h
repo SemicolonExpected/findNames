@@ -21,9 +21,7 @@ public:
     Edge();
     Edge(std::string name1, std::string name2, int new_weight);
     Edge& operator=(Edge rhs);
-    bool operator==(const Edge rhs) const {if(vertex1 == rhs.vertex1 && vertex2 == rhs.vertex2 && weight == rhs.weight) 
-                                return true; else return false;}
-    bool operator<(const Edge rhs) const {if(weight<rhs.weight) return true; else return false;}
+    bool operator==(Edge rhs);
 };
 
 struct vertex{
@@ -56,7 +54,7 @@ public:
     void add_adjacency(std::string first_name, std::string last_name, int weight);
     //void dfs(std::string name);
     void print_adjacencies(std::string);
-    
+
     std::vector<Edge> return_these_adjacencies(std::string query);
 };
 
@@ -80,21 +78,18 @@ void Graph::add_vertex(std::string new_vertex)
 {
     int pos = vertices.size();
     roots[new_vertex]  = pos;
-    
     vertex brand_new;
     brand_new.name = new_vertex;
     vertices.push_back(brand_new);
-    
-    vertices[pos].name = new_vertex;
-    //std::cout << "Graph pos " << roots[new_vertex] << " contains " << vertices[pos].name << std::endl;
+    std::cout << "Graph pos " << roots[new_vertex] << " contains " << vertices[pos].name << std::endl;
 }
 
 void Graph::add_adjacency(std::string first_name, std::string last_name, int weight)
 {
     int pos1 = roots[first_name], pos2 = roots[last_name];
 
-    vertices[pos1].add_new_edge(weight, first_name);//Adjacency <first-last>
-    vertices[pos2].add_new_edge(weight, last_name);//Adjacency <last-first>
+    vertices[pos1].add_new_edge(weight, last_name);//Adjacency <first-last>
+    vertices[pos2].add_new_edge(weight, first_name);//Adjacency <last-first>
 
 }
 
@@ -188,11 +183,11 @@ std::vector<Edge> vertex::return_adjacencies()
 }
 
 /******************
- * Edge functions *
- ******************/
- 
+* Edge functions *
+******************/
+
 Edge::Edge(){
-    weight = 0;
+    //weight = 0;
 }
 Edge::Edge(std::string name1, std::string name2, int new_weight)
 {
@@ -204,12 +199,9 @@ Edge::Edge(std::string name1, std::string name2, int new_weight)
 Edge& Edge::operator=(Edge rhs)
 {
     if(*this == rhs) return *this;
-    else{
-        vertex1 = rhs.vertex1;
-        vertex2 = rhs.vertex2;
-        weight = rhs.weight;
-    }
-    return *this;
+    vertex1 = rhs.vertex1;
+    vertex2 = rhs.vertex2;
+    weight = rhs.weight;
 }
 
 bool Edge::operator==(Edge rhs){
