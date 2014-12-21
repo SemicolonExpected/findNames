@@ -78,13 +78,15 @@ Graph::Graph(std::string name)
 
 void Graph::add_vertex(std::string new_vertex)
 {
+    int pos = vertices.size();
+    roots[new_vertex]  = pos;
+    
     vertex brand_new;
     brand_new.name = new_vertex;
     vertices.push_back(brand_new);
-    int pos = vertices.size();
-    roots[new_vertex]  = pos;
+    
     vertices[pos].name = new_vertex;
-    std::cout << "Graph pos " << roots[new_vertex] << " contains " << vertices[pos].name << std::endl;
+    //std::cout << "Graph pos " << roots[new_vertex] << " contains " << vertices[pos].name << std::endl;
 }
 
 void Graph::add_adjacency(std::string first_name, std::string last_name, int weight)
