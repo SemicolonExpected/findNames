@@ -21,7 +21,9 @@ public:
     Edge();
     Edge(std::string name1, std::string name2, int new_weight);
     Edge& operator=(Edge rhs);
-    bool operator==(Edge rhs);
+    bool operator==(const Edge rhs) const {if(vertex1 == rhs.vertex1 && vertex2 == rhs.vertex2 && weight == rhs.weight) 
+                                return true; else return false;}
+    bool operator<(const Edge rhs) const {if(weight<rhs.weight) return true; else return false;}
 };
 
 struct vertex{
