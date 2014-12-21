@@ -198,10 +198,13 @@ Edge::Edge(std::string name1, std::string name2, int new_weight)
 
 Edge& Edge::operator=(Edge rhs)
 {
-    if(*this == rhs) return;
-    vertex1 = rhs.vertex1;
-    vertex2 = rhs.vertex2;
-    weight = rhs.weight;
+    if(*this == rhs) return *this;
+    else{
+        vertex1 = rhs.vertex1;
+        vertex2 = rhs.vertex2;
+        weight = rhs.weight;
+    }
+    return *this;
 }
 
 bool Edge::operator==(Edge rhs){
