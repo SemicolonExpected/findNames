@@ -21,6 +21,8 @@ class BinaryHeap
         void deleteMin();
         void deleteMin(Datatype &minItem); //the one to use
         
+        int getSize();
+        
         //void decreaseKey(Datatype item, int delta);
         //void increaseKey(Datatype item, int delta);
         void decreaseKey(int pos, int delta);
@@ -200,6 +202,12 @@ void BinaryHeap<Datatype>::remove(Datatype item){
         }
         
     }
+}
+
+template<typename Datatype>
+int BinaryHeap<Datatype>::getSize()
+{
+    return currentSize;
 }
 
 #endif
