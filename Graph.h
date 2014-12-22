@@ -1,3 +1,22 @@
+/*********************************************************************************************** *
+ * Victoria Zhong && Jose Uribe                                                                  *
+ *                                                                                               *
+ * Last Modified: 22 December 2014 3:40AM                                                        *
+ *                                                                                               *
+ * Contributions:                                                                                *
+ * Victoria Zhong - ideas of implementation                                                      *
+ *                - the weird vector pair Depth First Search                                     *
+ *                                                                                               *
+ * Jose Uribe     - Graph implimentation                                                         *
+ *                - Depth First Search                                                           *
+ *                                                                                               *
+ *                                                                                               * 
+ * Citations:                                                                                    *
+ * Wikibooks(2014)Levenshtein Distance [Algorithm]. Availible at:                                *
+ *  http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#C.2B.2B   *
+ *                                                                                               *
+ * ********************************************************************************************* */
+
 #ifndef GRAPH_H
 #define GRAPH_H
 
