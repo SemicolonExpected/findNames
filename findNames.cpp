@@ -1,7 +1,22 @@
-/***********************
- * Victoria Zhong && Jose Uribe
- * 
- * *********************/
+/*********************************************************************************************** *
+ * Victoria Zhong && Jose Uribe                                                                  *
+ *                                                                                               *
+ * Last Modified: 22 December 2014 3:40AM                                                        *
+ *                                                                                               *
+ * Contributions:                                                                                *
+ * Victoria Zhong - overloaded operators                                                         *
+ *                - Prim's Algorithm                                                             *
+ *                - findNames.cpp                                                                *
+ *                - the weird vector pair Depth First Search                                     *
+ *                                                                                               *
+ * Jose Uribe     - Brainstorming Prim's implementation                                          *
+ *                                                                                               *
+ *                                                                                               * 
+ * Citations:                                                                                    *
+ * Wikibooks(2014)Levenshtein Distance [Algorithm]. Availible at:                                *
+ *  http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#C.2B.2B   *
+ *                                                                                               *
+ * ********************************************************************************************* */
 #include "BinaryHeap.h"
 #include "Graph.h"
 
@@ -11,6 +26,11 @@
 #include <math.h>
 #include <utility>
 
+
+/************************************************************************************************
+ * Wikibooks(2014)Levenshtein Distance [Algorithm]. Availible at:                               *
+ *  http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#C.2B.2B  *
+ ************************************************************************************************/
 template <class T> unsigned int edit_distance(const T& s1, const T& s2)
 {
 	const size_t len1 = s1.size(), len2 = s2.size();
