@@ -163,15 +163,19 @@ void kruskal(Graph& theGraph, BinaryHeap<Edge> theEdges){
 	}
 }
 
-int main(){
+int main(int argc, char *argv[]){
+    
+    if(argc != 2){
+        std::cout<<"Invalid Number of Arguments"<<std::endl;
+        return 0;
+    }
 	
-	//Graph 
 	/********************************************
 	 * Takes the name of stuff into the program * 
 	 ********************************************/
 	 
 	 std::ifstream names;
-	 names.open("allnames.txt");
+	 names.open(argv[1]);
 	 std::vector<string> stuff;
 	 Graph theGraph;
 	 //std::vector<std::pair<std::string, int>> vertexes;
