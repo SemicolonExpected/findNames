@@ -247,22 +247,12 @@ int main(){
 	    	std::cout<<"Enter a depth limit:"<<std::endl;
 	    	int limit;
 	    	std::cin>>limit;
-		dothething(minTree, name, limit);
+		minTree.dfs(name, limit, 0);
 	}while(name != "exit");
 	
 	
 }
 
 void dothething(Graph agraph, string name, int limit){
-    std::vector<std::pair<std::pair<std::string, int>, int>> theThing = agraph.dfs(name, limit);
-    
-    for(int i = 0; i<theThing.size(); i++)
-    {
-        if(theThing[i].second<limit)
-            for(int j = 0; j<(limit-theThing[i].second); j++)
-                std::cout<<"    "; //do the indent
-                
-        std::cout<<theThing[i].first.first<<"("<<theThing[i].first.second<<") "<<std::endl;
-    }
-   
+    agraph.dfs(name, limit, 0);
 }
