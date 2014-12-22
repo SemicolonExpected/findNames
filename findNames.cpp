@@ -235,19 +235,20 @@ int main(){
 	 *           DO THE SEARCH!             *
 	 * ************************************ */
 	 
-	std::cout<<"Enter a name: (or exit to exit)"<<std::endl;
-	string name;
-	std::cin>>name;
-	
-	if(name == "exit"){
-	    return 0;
-	}
-	
-	std::cout<<"Enter a depth limit:"<<std::endl;
-	int limit;
-	std::cin>>limit;
-	
-	dothething(minTree, name, limit);
+	do{
+		std::cout<<"Enter a name: (or exit to exit)"<<std::endl;
+	    	string name;
+	    	std::cin>>name;
+    	
+	    	if(name == "exit"){
+	    	    return 0;
+	    	}
+	    	
+	    	std::cout<<"Enter a depth limit:"<<std::endl;
+	    	int limit;
+	    	std::cin>>limit;
+		dothething(minTree, name, limit);
+	}while(name != "exit");
 	
 	
 }
@@ -263,16 +264,5 @@ void dothething(Graph agraph, string name, int limit){
                 
         std::cout<<theThing[i].first.first<<"("<<theThing[i].first.second<<") "<<std::endl;
     }
-    
-    std::cout<<"Enter a name: (or exit to exit)"<<std::endl;
-	string names;
-	std::cin>>names;
-	
-	if(!(names == "exit")){
-    	std::cout<<"Enter a depth limit:"<<std::endl;
-    	int limits;
-    	std::cin>>limits;
-    	
-    	dothething(agraph, names, limits);
-	}
+   
 }
