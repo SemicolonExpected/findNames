@@ -29,3 +29,11 @@
 g++ -std=c++0x findNames.cpp -o findNames
 ./findNames filename
 
+This program takes all the names and adds them to an adjacency list. Then all the edges are found
+and added into a heap. In Kruskals, the algorithm creates a new graph and pops out edges and adds
+those vertexes and adjacencies as long as it hasnt been added before. In Prims, it acts as a 
+pops out the first member of the heap and has a separate heap listing all the adjacencies and 
+weights of added vertices.
+
+We contemplated adding uv and vu as separate edges due to this being undirected, but for the 
+implimentation of both Kruskals, Prims, and DFS, uv already imples vu.
