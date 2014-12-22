@@ -1,3 +1,13 @@
+/****************************************************************************** *
+ * Weiss, Mark Allen (2014).Binary Heap [Source Code] Availible at:             *
+ *                                                                              *
+ * Weiss, Mark Allen.Data Structures and Algorithm Analysis in C++.             *
+ *  New Jersey.Pearson Education Inc.2014.248-255.Print                         *
+ *                                                                              *
+ * Edited by Victoria Zhong - added getSize, increaseKey, decreaseKey,          *
+ *                              and remove                                      *
+ * **************************************************************************** */
+
 #ifndef BINARYHEAP_H 
 #define BINARYHEAP_H
 
