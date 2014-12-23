@@ -1,3 +1,13 @@
+/* Notes:
+ *Nothing much changed here, except for the add_edge() function.
+ *PLEASE KEEP THE ADD_EDGE FUNCTION THE WAY IT IS!
+ *
+ *DFS Seems to work correctly (IE: It doesn't infinitely recurse and runs to the count entered as the 3rd parameter)
+ *Some cleverly place couts will most likely be the end of that problem.
+ * 
+ *The turn_off_visited() function is not necessary; unless we enter a new name in the enter name do-while loop in main.
+ *
+ */
 /*********************************************************************************************** *
  * Victoria Zhong && Jose Uribe                                                                  *
  *                                                                                               *
@@ -121,12 +131,12 @@ void Graph::add_vertex(std::string new_vertex)
     //std::cout << "Graph pos " << roots[new_vertex] << " contains " << vertices[pos].name << std::endl;
 }
 
+//!!!!!!!!!!!!!!!!!!!!!!!!!! DO NOT MESS AROUND WITH THIS. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+//IF THERE IS AN ERROR, CHECK THE PARAMETERS TO ADD_NEW_EDGE
 void Graph::add_adjacency(std::string first_name, std::string last_name, int weight)
 {
-    int pos1 = roots[first_name], pos2 = roots[last_name];
-
-    //vertices[pos1].add_new_edge(weight, first_name);//Adjacency <first-last>
-    vertices[pos2].add_new_edge(weight, last_name);//Adjacency <last-first>
+    int pos1 = roots[first_name];
+    vertices[pos1].add_new_edge(weight, last_name);//Adjacency <last-first> DO NOT ROLL THIS BACK, THIS IS THE CORRECT VERSION.
 
 }
 
@@ -159,32 +169,47 @@ std::vector<std::pair<std::pair<std::string, int>, int>> Graph::dfs(std::string 
     }
     return nods;
 }
+
+//DFS IS INCREASINGLY STUPID. YOU ARE WELCOME TO PARSE THIS MESS, THOUGH. PROPERLY PLACED COUT'S ARE ALL THAT IS NEEDED//
 void Graph::dfs(std::string name, int limit, int count)
 {
+	//cout << "Hello!" << "time to depth search to this level: " << limit << endl;
     
-    if(limit > 0){
+        std::cout<<name<< endl;
+    int adjacency_size;
+    if(limit){
+
+	//cout << "Why hello there, we'll be searching: " << name << endl;
         int pos = roots[name], current_adjacency;
         //pq edges;
         vertices[pos].ifvisited = true;
     
         vertex *this_vertex = get_this_vertex(name);//This vertex. For this instance. Pointers to avoid crazy memory usage
-        int adjacency_size = this_vertex->adjacencies.size();//The size of the adjacency list. used in the for loop
+//	cout << "we've grabbed a pointer to the vertex: " << this_vertex->name << endl;
+        adjacency_size = this_vertex->adjacencies.size();//The size of the adjacency list. used in the for loop
         std::string current_name;//The current name. used to verify if we should recurse on this name.
-    
+    	//cout << "the adjacency size is: " << adjacency_size << endl;
         for(int i = 0; i < adjacency_size; i++){
+	    //cout << "Hi again!" << endl;
             current_name = this_vertex->adjacencies[i].vertex2;//Will obtain the name
+	  //  cout << "the current name is: " << current_name << endl;
             current_adjacency = roots[current_name];//The position of our potentially unvisited vertex
+	    if(vertices[current_adjacency].ifvisited) cout << current_name << " Has already been visited..." << endl;
             if(vertices[current_adjacency].ifvisited) continue;//If the node has already been visited, ignore.
-            else{
+            else if(limit){
+		//cout << "I'm in the dfs recurse loop!" << endl;
                 for(int j = 0; j<count; j++)
                     std::cout<<"    ";
                     
-                std::cout<<name<<"("<<this_vertex->adjacencies[i].weight<<") "<<std::endl;
+		vertices[current_adjacency].ifvisited = true;
+
                 
-                dfs(current_name, --limit, ++count);//otherwise, we will go deeper.
+                dfs(current_name, limit-1, count+1);//otherwise, we will go deeper.
             }
         }
     }
+
+    cout << "A recursive call had terminated!" << endl;
 }
 
 void Graph::print_adjacencies(std::string name)
@@ -285,3 +310,4 @@ Edge& Edge::operator=(Edge rhs)
 
 
 #endif
+
