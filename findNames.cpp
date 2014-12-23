@@ -1,3 +1,16 @@
+/*			A Couple of notes:
+ *1) The file reading was causing the graph to build incorrectly. I have fixed the file reading. Please do not mess
+ *   around with the file reading...It works now. If you wanna verify, run it on a small file and read the adjacencies.
+ *2)I moved some things around, but it otherwise should work. I messed around with things again in the B-Heap build
+ *3) Prim's execution has been moved to the do-while loop that prompts the user to enter a name
+ *	It must be here, since the name entered is the starting point for our MST.
+ *4) Some levenshtein distances bigger than 4 are getting into the graph. Minor error, but still problematic
+ *
+ *
+ */
+
+
+
 /*********************************************************************************************** *
  * Victoria Zhong && Jose Uribe                                                                  *
  *                                                                                               *
@@ -183,47 +196,55 @@ int main(int argc, char *argv[]){
 	 int numNode = 0;
 	 int numEdges = 0;
 	 
-	 if(!names.eof()){
+
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+	//!!!!!!!!!!!!!!!!!!DO NOT TOUCH ANYTHING RELATING TO FILE PARSING!!!!!!!!!!!!!!!!!!!!!!!!!!!//
+	 string temporary;
+	 while(names >> temporary){
 	 	//adds the first vertex
-	 	std::string temporary;
-	 	names>>temporary;
 	 	theGraph.add_vertex(temporary);
+		//cout << "Adding: " << temporary << endl;
 	 	stuff.push_back(temporary);
 	 	numNode++;
 	 	//std::pair<std::string, int> tempPair(temporary,0);
 	 }
-	 while(!names.eof())
+
+	 /*cout << "our vector has: " << stuff.size() << " number of items" << endl;
+
+	 for(int i = 0; i < stuff.size(); i++){
+		cout << "item: " << i << " in the vector: " << stuff[i] << endl;
+	 }*/
+
+	 string temporary2;
+	 for(int i = 0; i < stuff.size(); i++)
 	 {
-	 	string temporary;
-	 	names>>temporary; //gets line
-	 	theGraph.add_vertex(temporary);
-	 	numNode++;
+
+		temporary2 = stuff[i];
 	 	/*************************
 	 	 * Check for adjacencies *
 	 	 * ********************* */
-	 	 
-	 	 for(int i = 0; i<stuff.size(); i++){
-	 		int weight = edit_distance(temporary, stuff[i]);
-	 		if(weight<5){
-	 			theGraph.add_adjacency(temporary, stuff[i], weight);
+	 	 cout << "Checking adjacencies for: " << temporary2 << endl;
+	 	 for(int j = 0; j<stuff.size(); j++){
+	 		int weight = edit_distance(temporary2, stuff[j]);
+	 		if(weight<=4 && stuff[i] != stuff[j]){
+				//cout << temporary2 << " is adjacent to: " << stuff[j] << endl;
+	 			theGraph.add_adjacency(temporary2, stuff[j], weight);
 	 			numEdges++;
 	 			//theGraph.add_adjacency(stuff[i], temporary, weight);
 	 		}
 	 	 }
 	 	 
-	 	 stuff.push_back(temporary);
+	 	 //stuff.push_back(temporary);
 	 }
+
+         //theGraph.print_adjacencies("Sophia");
+	//return 0;
 	 names.close();
 	 
 	 std::cout<<"Number of vertices:"<<numNode<<std::endl
 	 		  <<"Number of Edges:"<<numEdges<<std::endl;
 	 
-	 std::vector<Edge> edges;
-	 string temporary = stuff.front();  
-	 edges = theGraph.return_these_adjacencies(temporary); 
-	 BinaryHeap<Edge> theEdges(edges);
-	 std::swap(stuff[0],stuff[stuff.size()-1]);
-	 stuff.resize(stuff.size()-1);
+	 
 	 //deletes that element
 	 /*while(stuff.size()>0)
 	 {
@@ -252,26 +273,51 @@ int main(int argc, char *argv[]){
 	 * ******************/
 	
 	
-	Graph minTree = prims(theGraph, theEdges);
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PRIM'S CALL HAS BEEN MOVED INTO THE FINAL DO WHILE LOOP BELOW VVVVVVVVVVVVVVVV
 	//kruskal(theGraph, theEdges);
 	
 	/* ************************************ *
 	 *           DO THE SEARCH!             *
 	 * ************************************ */
 	 
+        string name;
+	int limit;
 	do{
 		std::cout<<"Enter a name: (or exit to exit)"<<std::endl;
-	    	string name;
+
 	    	std::cin>>name;
     	
 	    	if(name == "exit"){
 	    	    return 0;
 	    	}
-	    	
+
+		cout << "adjacencies: " << endl;
+		theGraph.print_adjacencies(name);
+		int numby;
+		cout << "enter a depth!" << endl;
+		cin >> numby;
+
+
+		theGraph.dfs(name, numby, 0);
+
+		return 0;
+
+		//!!!!!!!!!!!!!!!!!!!!!! PRIM'S CALL SHOULD BE HERE, USING THE NAME THAT THE USER INPUT!!!!!!!!!!!!!!!!!!!//
+	    	std::vector<Edge> edges	;
+	 	edges = theGraph.return_these_adjacencies(name); 
+		//theGraph.print_adjacencies(name);
+	 	BinaryHeap<Edge> theEdges(edges);
+	 	std::swap(stuff[0],stuff[stuff.size()-1]);
+	 	stuff.resize(stuff.size()-1);
+		Graph minTree = prims(theGraph, theEdges);
+		minTree.print_adjacencies(name);
 	    	std::cout<<"Enter a depth limit:"<<std::endl;
-	    	int limit;
+
 	    	std::cin>>limit;
-		minTree.dfs(name, limit, 0);
+		cout << "Your limit will be: "<< limit << endl;
+
+		
+		//minTree.dfs(name, limit, 0);
 	}while(name != "exit");
 	
 	
@@ -280,3 +326,4 @@ int main(int argc, char *argv[]){
 void dothething(Graph agraph, string name, int limit){
     agraph.dfs(name, limit, 0);
 }
+
