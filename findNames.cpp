@@ -254,31 +254,3 @@ int main(int argc, char *argv[]){
 	
 	
 }
-
-void dothething(Graph agraph, string name, int limit){
-    //std::vector<std::pair<std::pair<std::string, int>, int>> theThing;
-    agraph.dfs(name, limit, 0);
-    //agraph.dfs(name, limit, theThing);
-    
-    /*for(int i = 0; i<theThing.size(); i++)
-    {
-        if(theThing[i].second<limit)
-            for(int j = 0; j<(limit-theThing[i].second); j++)
-                std::cout<<"    "; //do the indent
-                
-        std::cout<<theThing[i].first.first<<"("<<theThing[i].first.second<<") "<<std::endl;
-    }*/
-    
-    /*
-    std::cout<<"Enter a name: (or exit to exit)"<<std::endl;
-	string names;
-	std::cin>>names;
-	
-	if(!(names == "exit")){
-    	std::cout<<"Enter a depth limit:"<<std::endl;
-    	int limits;
-    	std::cin>>limits;
-    	
-    	dothething(agraph, names, limits);
-	}*/
-}
