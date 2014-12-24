@@ -50,7 +50,6 @@ template <class T> unsigned int edit_distance(const T& s1, const T& s2)
 void dothething(Graph agraph, string name, int limit);
 
 Graph prims(Graph& aGraph, BinaryHeap<Edge> &aHeap);
-
 Graph prims(Graph& aGraph, BinaryHeap<Edge> &aHeap){
 	
 	Edge tempEdge;
@@ -72,46 +71,104 @@ Graph prims(Graph& aGraph, BinaryHeap<Edge> &aHeap){
 		
 		edges = aGraph.return_these_adjacencies(tempEdge.vertex1);
 	    for(int i = 0; i<edges.size(); i++)
-	       aHeap.insert(edges[i]); //inserts adjacencies
+	       aHeap.insert(edges[i]); //inserts adjacencies to the first edge and only that
 	    edges = aGraph.return_these_adjacencies(tempEdge.vertex2);
 	    
 	    for(int i = 0; i<edges.size(); i++)
 	       aHeap.insert(edges[i]);
 	}
     
-    while(/*aGraph.getVisited()<2000*/!aHeap.isEmpty()){
-        //if(!aHeap.isEmpty()){
-            aHeap.deleteMin(tempEdge);
-            
-            if(aGraph.get_this_vertex(tempEdge.vertex2)->ifvisited = false){ //vertex 2 not visited
-                minSpanTree.add_vertex(tempEdge.vertex2);
-                aGraph.get_this_vertex(tempEdge.vertex2)->ifvisited = true;
-                aGraph.incrementVisited();
-                minSpanTree.add_adjacency(tempEdge.vertex1, tempEdge.vertex2, tempEdge.weight);
+    while(!aHeap.isEmpty()){
+        aHeap.deleteMin(tempEdge);
+        
+        if(aGraph.get_this_vertex(tempEdge.vertex2)->ifvisited = false){ //vertex 2 not visited
+            minSpanTree.add_vertex(tempEdge.vertex2);
+            aGraph.get_this_vertex(tempEdge.vertex2)->ifvisited = true;
+            aGraph.incrementVisited();
+            minSpanTree.add_adjacency(tempEdge.vertex1, tempEdge.vertex2, tempEdge.weight);
                 
-                edges = aGraph.return_these_adjacencies(tempEdge.vertex2);
-                for(int i = 0; i<edges.size(); i++)
-    	            aHeap.insert(edges[i]);
-            }
-            else{ //vertex 1 not visited
-                minSpanTree.add_vertex(tempEdge.vertex1);
-                aGraph.get_this_vertex(tempEdge.vertex1)->ifvisited = true;
-                aGraph.incrementVisited();
-                minSpanTree.add_adjacency(tempEdge.vertex1, tempEdge.vertex2, tempEdge.weight);
+            edges = aGraph.return_these_adjacencies(tempEdge.vertex2);
+            for(int i = 0; i<edges.size(); i++)
+    	       aHeap.insert(edges[i]);
+        }
+        else{ //vertex 1 not visited
+            minSpanTree.add_vertex(tempEdge.vertex1);
+            aGraph.get_this_vertex(tempEdge.vertex1)->ifvisited = true;
+            aGraph.incrementVisited();
+            minSpanTree.add_adjacency(tempEdge.vertex1, tempEdge.vertex2, tempEdge.weight);
                 
-                edges = aGraph.return_these_adjacencies(tempEdge.vertex1);
-                for(int i = 0; i<edges.size(); i++)
-    	            aHeap.insert(edges[i]);
-            }
-            
-        /*}
-        else
-            break;*/
+            edges = aGraph.return_these_adjacencies(tempEdge.vertex1);
+            for(int i = 0; i<edges.size(); i++) //only iterates if it has an adjacency
+    	       aHeap.insert(edges[i]);
+        }
     } //do while not all nodes are visited
     
     return minSpanTree;
 	
+	/************************************
+	 * While not all vertices are visited
+	 * **********************************/
+}
 
+
+Graph prims(Graph& aGraph, std::string name);
+Graph prims(Graph& aGraph, std::string name){
+	
+	Edge tempEdge;
+	Graph minSpanTree;
+	std::vector<Edge> edges;
+	
+	edges = aGraph.return_these_adjacencies(name);
+	BinaryHeap<Edge> aHeap(edges);
+	
+	if(!aHeap.isEmpty()){
+		aHeap.deleteMin(tempEdge);
+		//start the tree, create the first edge
+		minSpanTree.add_vertex(tempEdge.vertex1);
+		minSpanTree.add_vertex(tempEdge.vertex2);
+		minSpanTree.add_adjacency(tempEdge.vertex1, tempEdge.vertex2, tempEdge.weight);
+		
+		aGraph.get_this_vertex(tempEdge.vertex1)->ifvisited = true;
+		aGraph.incrementVisited();
+		aGraph.get_this_vertex(tempEdge.vertex2)->ifvisited = true;
+		aGraph.incrementVisited();
+		
+		
+		edges = aGraph.return_these_adjacencies(tempEdge.vertex1);
+	    for(int i = 0; i<edges.size(); i++)
+	       aHeap.insert(edges[i]); //inserts adjacencies to the first edge and only that
+	    edges = aGraph.return_these_adjacencies(tempEdge.vertex2);
+	    
+	    for(int i = 0; i<edges.size(); i++)
+	       aHeap.insert(edges[i]);
+	}
+    
+    while(!aHeap.isEmpty()){
+        aHeap.deleteMin(tempEdge);
+        
+        if(aGraph.get_this_vertex(tempEdge.vertex2)->ifvisited = false){ //vertex 2 not visited
+            minSpanTree.add_vertex(tempEdge.vertex2);
+            aGraph.get_this_vertex(tempEdge.vertex2)->ifvisited = true;
+            aGraph.incrementVisited();
+            minSpanTree.add_adjacency(tempEdge.vertex1, tempEdge.vertex2, tempEdge.weight);
+                
+            edges = aGraph.return_these_adjacencies(tempEdge.vertex2);
+            for(int i = 0; i<edges.size(); i++)
+    	       aHeap.insert(edges[i]);
+        }
+        else{ //vertex 1 not visited
+            minSpanTree.add_vertex(tempEdge.vertex1);
+            aGraph.get_this_vertex(tempEdge.vertex1)->ifvisited = true;
+            aGraph.incrementVisited();
+            minSpanTree.add_adjacency(tempEdge.vertex1, tempEdge.vertex2, tempEdge.weight);
+                
+            edges = aGraph.return_these_adjacencies(tempEdge.vertex1);
+            for(int i = 0; i<edges.size(); i++) //only iterates if it has an adjacency
+    	       aHeap.insert(edges[i]);
+        }
+    } //do while not all nodes are visited
+    
+    return minSpanTree;
 	
 	/************************************
 	 * While not all vertices are visited
@@ -211,7 +268,7 @@ int main(int argc, char *argv[]){
 	 BinaryHeap<Edge> theEdges(edges);
 	 std::swap(stuff[0],stuff[stuff.size()-1]);
 	 stuff.resize(stuff.size()-1);
-	 //deletes that element
+	//deletes that element
 	 
 	 
 	 /***********************************************\
@@ -229,8 +286,7 @@ int main(int argc, char *argv[]){
 	 * ******************/
 	
 	
-	Graph minTree = prims(theGraph, theEdges);
-	//kruskal(theGraph, theEdges);
+	//Graph minTree = prims(theGraph, theEdges);
 	
 	/* ************************************ *
 	 *           DO THE SEARCH!             *
@@ -249,8 +305,11 @@ int main(int argc, char *argv[]){
     	std::cin>>limit;
 	    //dothething(minTree, name, limit);
 	    //minTree.print_adjacencies(name);
+	    Graph minTree = prims(theGraph, name);
+	    std::cout<<"1"<<std::endl;
 	    minTree.dfs(name, limit, 0);
 	}while(name != "exit");
 	
 	
 }
+
