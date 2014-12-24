@@ -79,8 +79,8 @@ Graph prims(Graph& aGraph, BinaryHeap<Edge> &aHeap){
 	       aHeap.insert(edges[i]);
 	}
     
-    do{
-        if(!aHeap.isEmpty()){
+    while(/*aGraph.getVisited()<2000*/!aHeap.isEmpty()){
+        //if(!aHeap.isEmpty()){
             aHeap.deleteMin(tempEdge);
             
             if(aGraph.get_this_vertex(tempEdge.vertex2)->ifvisited = false){ //vertex 2 not visited
@@ -104,11 +104,10 @@ Graph prims(Graph& aGraph, BinaryHeap<Edge> &aHeap){
     	            aHeap.insert(edges[i]);
             }
             
-        }
+        /*}
         else
-            break;
-    }
-    while(aGraph.getVisited()<2000); //do while not all nodes are visited
+            break;*/
+    } //do while not all nodes are visited
     
     return minSpanTree;
 	
@@ -178,24 +177,12 @@ int main(int argc, char *argv[]){
 	 names.open(argv[1]);
 	 std::vector<string> stuff;
 	 Graph theGraph;
-	 //std::vector<std::pair<std::string, int>> vertexes;
-	 //std::map<string,vertex> graphMap;
+	 
 	 int numNode = 0;
 	 int numEdges = 0;
 	 
-	 if(!names.eof()){
-	 	//adds the first vertex
-	 	std::string temporary;
-	 	names>>temporary;
-	 	theGraph.add_vertex(temporary);
-	 	stuff.push_back(temporary);
-	 	numNode++;
-	 	//std::pair<std::string, int> tempPair(temporary,0);
-	 }
-	 while(!names.eof())
-	 {
-	 	string temporary;
-	 	names>>temporary; //gets line
+	 std::string temporary;
+	 while(names >> temporary){ //gets line
 	 	theGraph.add_vertex(temporary);
 	 	numNode++;
 	 	/*************************
@@ -204,7 +191,7 @@ int main(int argc, char *argv[]){
 	 	 
 	 	 for(int i = 0; i<stuff.size(); i++){
 	 		int weight = edit_distance(temporary, stuff[i]);
-	 		if(weight<5){
+	 		if(weight<5 && stuff[i] != temporary){
 	 			theGraph.add_adjacency(temporary, stuff[i], weight);
 	 			numEdges++;
 	 			//theGraph.add_adjacency(stuff[i], temporary, weight);
@@ -219,22 +206,12 @@ int main(int argc, char *argv[]){
 	 		  <<"Number of Edges:"<<numEdges<<std::endl;
 	 
 	 std::vector<Edge> edges;
-	 string temporary = stuff.front();  
+	 temporary = stuff.front();  
 	 edges = theGraph.return_these_adjacencies(temporary); 
 	 BinaryHeap<Edge> theEdges(edges);
 	 std::swap(stuff[0],stuff[stuff.size()-1]);
 	 stuff.resize(stuff.size()-1);
 	 //deletes that element
-	 /*while(stuff.size()>0)
-	 {
-	 	string temporary = stuff.front();
-		edges = theGraph.return_these_adjacencies(temporary);
-		std::swap(stuff[0],stuff[stuff.size()-1]);
-	 	stuff.resize(stuff.size()-1);
-	 	
-	 	for(int i = 0; i<edges.size(); i++)
-	 		theEdges.insert(edges[i]);
-	 }*/
 	 
 	 
 	 /***********************************************\
@@ -258,25 +235,50 @@ int main(int argc, char *argv[]){
 	/* ************************************ *
 	 *           DO THE SEARCH!             *
 	 * ************************************ */
-	 
+	string name;
 	do{
-		std::cout<<"Enter a name: (or exit to exit)"<<std::endl;
-	    	string name;
-	    	std::cin>>name;
+	    std::cout<<"Enter a name: (or exit to exit)"<<std::endl;
+    	std::cin>>name;
     	
-	    	if(name == "exit"){
-	    	    return 0;
-	    	}
-	    	
-	    	std::cout<<"Enter a depth limit:"<<std::endl;
-	    	int limit;
-	    	std::cin>>limit;
-		minTree.dfs(name, limit, 0);
+    	if(name == "exit"){
+    	    return 0;
+    	}
+    	
+    	std::cout<<"Enter a depth limit:"<<std::endl;
+    	int limit;
+    	std::cin>>limit;
+	    //dothething(minTree, name, limit);
+	    //minTree.print_adjacencies(name);
+	    minTree.dfs(name, limit, 0);
 	}while(name != "exit");
 	
 	
 }
 
 void dothething(Graph agraph, string name, int limit){
+    //std::vector<std::pair<std::pair<std::string, int>, int>> theThing;
     agraph.dfs(name, limit, 0);
+    //agraph.dfs(name, limit, theThing);
+    
+    /*for(int i = 0; i<theThing.size(); i++)
+    {
+        if(theThing[i].second<limit)
+            for(int j = 0; j<(limit-theThing[i].second); j++)
+                std::cout<<"    "; //do the indent
+                
+        std::cout<<theThing[i].first.first<<"("<<theThing[i].first.second<<") "<<std::endl;
+    }*/
+    
+    /*
+    std::cout<<"Enter a name: (or exit to exit)"<<std::endl;
+	string names;
+	std::cin>>names;
+	
+	if(!(names == "exit")){
+    	std::cout<<"Enter a depth limit:"<<std::endl;
+    	int limits;
+    	std::cin>>limits;
+    	
+    	dothething(agraph, names, limits);
+	}*/
 }
