@@ -75,8 +75,10 @@ public:
     Graph(std::string name);
     void add_vertex(std::string new_vertex);
     void add_adjacency(std::string first_name, std::string last_name, int weight);
-    void dfs(std::string name, int limit, int count);
+    
+    void dfs(std::string name, int limit, int count); //i like this and the next one
     std::vector<std::pair<std::pair<std::string, int>, int>> dfs(std::string name, int limit, std::vector<std::pair<std::pair<std::string, int>, int>>& nods);
+    
     void print_adjacencies(std::string);
     
     std::vector<Edge> return_these_adjacencies(std::string query);
@@ -86,6 +88,9 @@ public:
     int numVisited;
     
     void incrementVisited(){numVisited++;}
+    void turn_off_nodes(){
+        for(int i = 0; i < vertices.size(); i++) vertices[i].ifvisited = false;
+    }
 };
 
 Graph::Graph()
@@ -123,10 +128,8 @@ void Graph::add_vertex(std::string new_vertex)
 
 void Graph::add_adjacency(std::string first_name, std::string last_name, int weight)
 {
-    int pos1 = roots[first_name], pos2 = roots[last_name];
-
-    //vertices[pos1].add_new_edge(weight, first_name);//Adjacency <first-last>
-    vertices[pos2].add_new_edge(weight, last_name);//Adjacency <last-first>
+    int pos1 = roots[first_name];
+    vertices[pos1].add_new_edge(weight, last_name);
 
 }
 
@@ -161,31 +164,40 @@ std::vector<std::pair<std::pair<std::string, int>, int>> Graph::dfs(std::string 
 }
 void Graph::dfs(std::string name, int limit, int count)
 {
+    int adjacency_size , pos, current_adjacency;
     
-    if(limit > 0){
-        int pos = roots[name], current_adjacency;
-        //pq edges;
-        vertices[pos].ifvisited = true;
+    vertex *this_vertex = get_this_vertex(name);//This vertex. For this instance. Pointers to avoid crazy memory usage
+    vertex *that_vertex;
     
-        vertex *this_vertex = get_this_vertex(name);//This vertex. For this instance. Pointers to avoid crazy memory usage
-        int adjacency_size = this_vertex->adjacencies.size();//The size of the adjacency list. used in the for loop
+    if(count == 0){        
+        cout << name << "(0)" << endl;
+        count++;
+    }
+        
+    if(limit > 0 && !(this_vertex->ifvisited)){
+    
+        pos = roots[name];
+        adjacency_size = this_vertex->adjacencies.size();//The size of the adjacency list. used in the for loop
         std::string current_name;//The current name. used to verify if we should recurse on this name.
     
         for(int i = 0; i < adjacency_size; i++){
             current_name = this_vertex->adjacencies[i].vertex2;//Will obtain the name
             current_adjacency = roots[current_name];//The position of our potentially unvisited vertex
             if(vertices[current_adjacency].ifvisited) continue;//If the node has already been visited, ignore.
-            else{
+            else if(!vertices[current_adjacency].ifvisited){
                 for(int j = 0; j<count; j++)
                     std::cout<<"    ";
                     
                 std::cout<<name<<"("<<this_vertex->adjacencies[i].weight<<") "<<std::endl;
-                
-                dfs(current_name, --limit, ++count);//otherwise, we will go deeper.
+            }
+            
+            if(limit>0){
+                dfs(current_name, limit-1, count+1);//otherwise, we will go deeper.
             }
         }
     }
 }
+
 
 void Graph::print_adjacencies(std::string name)
 {
